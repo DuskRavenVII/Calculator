@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>calculator</title>
+    <!-- calculator Design Style css -->
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        .calculator {
+            height: 80vh;
+            width: 65vw;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5em;
+            background: rgb(61, 61, 61);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .calculator input {
+            font-size: 28px;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border: none;
+            border-radius: 15px;
+            color: #fff;
+            text-align: right;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+            letter-spacing: 1px;
+        }
+
+        .calculator .operations {
+            height: 100%;
+            width: 100%;
+            padding: 10px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(5, 1fr);
+            gap: 15px;
+        }
+
+        .calculator .operations button {
+            border: none;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow:
+                5px 5px 10px rgba(0, 0, 0, 0.2),
+                -5px -5px 10px rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .calculator .operations button:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .calculator .operations button:active {
+            transform: translateY(0);
+            box-shadow:
+                inset 3px 3px 6px rgba(0, 0, 0, 0.3),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.05);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .calculator .operations .zero-fill {
+            grid-column: 1/3;
+            border-radius: 25px;
+            text-align: left;
+            text-indent: 25px;
+            box-shadow:
+                5px 5px 10px rgba(0, 0, 0, 0.2),
+                -5px -5px 10px rgba(255, 255, 255, 0.05);
+        }
+
+        .calculator .operations .zero-fill:hover {
+            transform: translateY(-2px);
+            box-shadow:
+                5px 5px 15px rgba(0, 0, 0, 0.3),
+                -5px -5px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .calculator .operations .zero-fill:active {
+            transform: translateY(0);
+            box-shadow:
+                inset 3px 3px 6px rgba(0, 0, 0, 0.3),
+                inset -3px -3px 6px rgba(255, 255, 255, 0.05);
+        }
+
+        .orange-color {
+            background: linear-gradient(145deg, #ff6b35, #f7931e) !important;
+            box-shadow:
+                5px 5px 10px rgba(255, 107, 53, 0.3),
+                -5px -5px 10px rgba(247, 147, 30, 0.2) !important;
+        }
+
+        .orange-color:hover {
+            box-shadow:
+                5px 5px 15px rgba(255, 107, 53, 0.4),
+                -5px -5px 15px rgba(247, 147, 30, 0.3) !important;
+        }
+
+        .orange-color:active {
+            box-shadow:
+                inset 3px 3px 6px rgba(255, 107, 53, 0.3),
+                inset -3px -3px 6px rgba(247, 147, 30, 0.2) !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!--calculator section in html-->
+    <div class="calculator">
+        <input type="text" class="board" disabled>
+        <div class="operations">
+            <button type="button">AC</button>
+            <button type="button">%</button>
+            <button type="button">C</button>
+            <button type="button" class="orange-color">÷</button>
+            <button type="button">7</button>
+            <button type="button">8</button>
+            <button type="button">9</button>
+            <button type="button" class="orange-color">×</button>
+            <button type="button">6</button>
+            <button type="button">5</button>
+            <button type="button">4</button>
+            <button type="button" class="orange-color">-</button>
+            <button type="button">3</button>
+            <button type="button">2</button>
+            <button type="button">1</button>
+            <button type="button" class="orange-color">+</button>
+            <button type="button" class="zero-fill">0</button>
+            <button type="button">.</button>
+            <button type="button" class="orange-color">=</button>
+        </div>
+    </div>
+    <!--Script-->
+    <script>
+        // Define basic DOM elements and variables
+        const Board = document.querySelector('.board');
+        const operations = document.querySelectorAll('.operations > button');
+        //The section related to performing operations
+        operations.forEach((operation, key) => operation.onclick = (e) => {
+            operation.blur();
+            switch (operation.textContent) {
+                case 'AC':
+                    Board.value = '';
+                    break;
+                case 'C':
+                    Board.value = Board.value.length == 0 ? false : Board.value.slice(0, Board.value.length - 1);
+                    break;
+                case '=':
+                    try {
+                        const expression = Board.value.replace(/(×|÷)/g, match => (match === '×' ? '*' : '/'));
+                        const calculate = new Function('return ' + expression);
+                        const result = calculate();
+                        Board.value = Number.isInteger(result) ? result : result.toFixed(2);
+                    } catch (error) {
+                        Board.value = 'NaN';
+                    }
+                    break;
+                default:
+                    Board.value = Board.value === 'NaN' ? operation.textContent : Board.value + operation.textContent;
+                    break;
+            }
+        });
+    </script>
+</body>
+
+</html>
